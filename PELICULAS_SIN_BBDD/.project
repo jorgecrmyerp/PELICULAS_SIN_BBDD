@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>PELICULAS_SIN_BBDD</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.m2e.core.maven2Builder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.eclipse.m2e.core.maven2Nature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>Documentacion/CPJ-A-Leccion-LaboratorioFinal.pdf</name>
+			<type>1</type>
+			<location>C:/Users/DARTH_VADER/Documents/EJERCICIOS/EJERCICIOS_JAVA_UDEMY/PELICULAS_SIN_BBDD/PELICULAS_SIN_BBDD/Documentacion/CPJ-A-Leccion-LaboratorioFinal.pdf</location>
+		</link>
+	</linkedResources>
+</projectDescription>
