@@ -39,6 +39,7 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 	@Override
 	public boolean existe(String nombreRecurso) throws AccesoDatosEx {
 		File archivo = new File(nombreRecurso);
+		
 		return archivo.exists();
 
 	}
@@ -64,10 +65,12 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 
 			Object objeto = new Object();
 			objeto = objetoEntrada.readObject();
-
+			System.out.println("leo antes");
 			while (objeto != null) {
+				
 				peliculas.add((Pelicula) objeto);
 				objeto = objetoEntrada.readObject();
+				System.out.println("leo dentro");
 			}
 			objetoEntrada.close();
 			ficheroEntrada.close();
@@ -98,19 +101,24 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 	 * @throws AccesoDatosEx,existe el fichero pero hay problemas al leerlo
 	 * @return nada. OJO!!!!!
 	 *         http://www.chuidiang.org/java/ficheros/ObjetosFichero.php
+	 *         https://stackoverflow.com/questions/2393179/streamcorruptedexception-invalid-type-code-ac
 	 */
 
 	@Override
 	public void escribir(Pelicula pelicula, String nombreRecurso, boolean anexar)
 			throws EscrituraDatosEx, AccesoDatosEx {
 
+		System.out.println("escrito ok en escribir:"+ pelicula.toString()+ "\n");
 		try {
-			FileOutputStream ficheroSalida = new FileOutputStream(nombreRecurso);
+			FileOutputStream ficheroSalida = new FileOutputStream(nombreRecurso,anexar);
 			ObjectOutputStream objetoSalida = new ObjectOutputStream(ficheroSalida);
-			objetoSalida.writeObject(pelicula);
+			//objetoSalida.writeObject(pelicula);
+			objetoSalida.writeUnshared(pelicula);
+			//objetoSalida.reset();
 			objetoSalida.close();
 			ficheroSalida.close();
-			System.out.println("escrito ok en escribir");
+			
+			
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 			throw new EscrituraDatosEx("error escribir en archivo salida :" + e.getMessage() + " " + e.getCause());
@@ -184,13 +192,19 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 	public void crear(String nombreRecurso) throws AccesoDatosEx {
 
 		try {
-			FileOutputStream ficheroSalida = new FileOutputStream(nombreRecurso);
-			ObjectOutputStream objetoSalida = new ObjectOutputStream(ficheroSalida);
-			objetoSalida.close();
-			ficheroSalida.close();
-			System.out.println("creado ok en crear");
+			/*
+			 * FileOutputStream ficheroSalida = new FileOutputStream(nombreRecurso);
+			 * ObjectOutputStream objetoSalida = new ObjectOutputStream(ficheroSalida);
+			 * objetoSalida.close(); ficheroSalida.close();
+			 */
+			new FileOutputStream(nombreRecurso, false).close();
+
+			//File f = new File(nombreRecurso);
+			//System.out.println("creado ok en crear" + f.exists());
+			
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			//e.printStackTrace();
+			//System.out.println("error crear archivo salida :" + e.getMessage() + " " + e.getCause());
 			throw new EscrituraDatosEx("error crear archivo salida :" + e.getMessage() + " " + e.getCause());
 		} catch (IOException e) {
 			e.printStackTrace();

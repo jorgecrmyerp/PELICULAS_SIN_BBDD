@@ -15,7 +15,7 @@ PushLog="/dev/null"
 # Mensaje
 message=$@
 if [ -z "$message" ]; then
-message="$(date) 2022-03-10 hecho AccesoDatosImplArch"
+message="$(date) 2022-03-10 pt terminar AccesoDatosImplArchTest"
 fi
 
 start=`date +%s`

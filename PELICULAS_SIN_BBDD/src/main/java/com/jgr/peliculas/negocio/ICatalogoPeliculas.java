@@ -1,5 +1,6 @@
 package com.jgr.peliculas.negocio;
 
+import com.jgr.peliculas.domain.Pelicula;
 import com.jgr.peliculas.excepciones.AccesoDatosEx;
 
 /**
@@ -9,9 +10,9 @@ import com.jgr.peliculas.excepciones.AccesoDatosEx;
 public interface ICatalogoPeliculas {
 	
 	
-	void agregarPelicula(String nombrePelicula, String nombreRecurso)  throws AccesoDatosEx;
+	void agregarPelicula(Pelicula pelicula , String nombreRecurso)  throws AccesoDatosEx;
 	void listaPeliculas(String nombreRecurso)  throws AccesoDatosEx;
-	void buscarPelicula(String nombreRecurso, String buscar);
+	void buscarPelicula(String nombreRecurso, Pelicula pelicula);
 	void iniciarArchivo(String nombreRecurso)  throws AccesoDatosEx;
 
 }

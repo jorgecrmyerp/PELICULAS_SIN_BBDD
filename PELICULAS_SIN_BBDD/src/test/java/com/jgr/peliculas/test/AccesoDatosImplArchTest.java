@@ -3,18 +3,26 @@
  */
 package com.jgr.peliculas.test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import com.jgr.peliculas.datos.AccesoDatosImplArch;
+import com.jgr.peliculas.datos.IAccesoDatos;
 import com.jgr.peliculas.domain.Pelicula;
+import com.jgr.peliculas.excepciones.EscrituraDatosEx;
 
 /**
  * @author DARTH_VADER
@@ -22,8 +30,12 @@ import com.jgr.peliculas.domain.Pelicula;
  */
 class AccesoDatosImplArchTest {
 	
-	private Pelicula peli = new Pelicula();;
-	private List<Pelicula> peliculas = new ArrayList<Pelicula>();
+	IAccesoDatos accesoDatos;
+	private Pelicula peli;
+	private List<Pelicula> peliculas;
+	private final String nomFichero2 = "c:\\\\catalogoPeliculas\\\\peliculas.txt";
+	private final String nomFichero = "peliculas.txt";
+	private static final int NUM_MAX_LISTA =10;
 
 	/**
 	 * @throws java.lang.Exception
@@ -44,7 +56,17 @@ class AccesoDatosImplArchTest {
 	 * @throws java.lang.Exception
 	 */
 	@BeforeEach
+	@DisplayName("estoy en BeforeEach")
 	void setUp() throws Exception {
+		//pongo primero la interfaz,pero lo que creo es la clase en si
+		accesoDatos = new AccesoDatosImplArch();
+		peliculas = new ArrayList<Pelicula>();		
+		for (int i=0;i<NUM_MAX_LISTA ;i++) {
+			peli =new Pelicula("Peli"+ i);
+			peliculas.add(peli);
+			//System.out.println(peliculas.get(i).toString());
+			
+		}
 	}
 
 	/**
@@ -58,8 +80,11 @@ class AccesoDatosImplArchTest {
 	 * Test method for {@link com.jgr.peliculas.datos.AccesoDatosImplArch#existe(java.lang.String)}.
 	 */
 	@Test
-	void testExiste() {
-		fail("Not yet implemented");
+	@DisplayName("estoy en testExiste")
+	void testExiste() throws Exception {
+		accesoDatos.crear(nomFichero);
+		assertTrue(accesoDatos.existe(nomFichero),()->"no existe el fichero y lo acabo de crear"+ nomFichero);
+//		fail("Not yet implemented");
 	}
 
 	/**
@@ -74,7 +99,24 @@ class AccesoDatosImplArchTest {
 	 * Test method for {@link com.jgr.peliculas.datos.AccesoDatosImplArch#escribir(com.jgr.peliculas.domain.Pelicula, java.lang.String, boolean)}.
 	 */
 	@Test
-	void testEscribir() {
+	void testEscribir()  throws Exception{
+		accesoDatos.crear(nomFichero);
+		
+		for (int i=0;i<NUM_MAX_LISTA;i++) {
+			System.out.println(peliculas.get(i).toString());
+			accesoDatos.escribir(peliculas.get(i), nomFichero, true);
+		}
+		
+		List<Pelicula> peliculas2= new ArrayList<Pelicula>();
+		
+		peliculas2=accesoDatos.listar(nomFichero);
+		/*
+		for (int i=0;i<NUM_MAX_LISTA;i++) {
+		System.out.println(peliculas2.get(i));
+		}
+		*/
+		
+		
 		fail("Not yet implemented");
 	}
 
@@ -88,18 +130,40 @@ class AccesoDatosImplArchTest {
 
 	/**
 	 * Test method for {@link com.jgr.peliculas.datos.AccesoDatosImplArch#crear(java.lang.String)}.
+	 * 
 	 */
 	@Test
-	void testCrear() {
-		fail("Not yet implemented");
+	@DisplayName("estoy en testCrear")
+	void testCrear() throws Exception {	
+		//esta es un poco tonta, no se debe producir el error,solo estoy probando el msg que saca cuando casca
+		Exception exception2 = assertThrows(EscrituraDatosEx.class, () -> {accesoDatos.crear(nomFichero2);});	
+		String excepcionStr = exception2.getMessage();
+		String excepcion2Str ="error crear archivo salida :c:\\catalogoPeliculas\\peliculas.txt (El sistema no puede encontrar la ruta especificada) null";		
+		assertTrue(excepcionStr.equalsIgnoreCase(excepcion2Str), () -> 
+		"No coincide el mensaje de error " + excepcionStr +"/"+excepcion2Str);
+		
+		//ahora creo un fichero y verifico que existe
+		accesoDatos.crear(nomFichero);
+		assertTrue(accesoDatos.existe(nomFichero),()->"no existe el fichero "+ nomFichero);
+		accesoDatos.borrar(nomFichero);// lo borro
+		
+		
 	}
 
 	/**
 	 * Test method for {@link com.jgr.peliculas.datos.AccesoDatosImplArch#borrar(java.lang.String)}.
 	 */
 	@Test
-	void testBorrar() {
-		fail("Not yet implemented");
+	@DisplayName("estoy en testBorrar")
+	void testBorrar()  throws Exception{
+		//fail("Not yet implemented");
+		accesoDatos.crear(nomFichero);
+		assertTrue(accesoDatos.existe(nomFichero),()->"no existe el fichero "+ nomFichero);
+		accesoDatos.borrar(nomFichero);// lo borro
+		assertFalse(accesoDatos.existe(nomFichero),()->"lo he borrado y existe "+ nomFichero);
+
+		
+		
 	}
 
 }
