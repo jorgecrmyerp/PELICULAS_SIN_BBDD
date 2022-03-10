@@ -3,22 +3,19 @@ package com.jgr.peliculas.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Pelicula implements Serializable{
-	
+public class Pelicula implements Serializable {
+
 	/**
-	 * 
+	 * CLASE PRINCIPAL
 	 */
 	private static final long serialVersionUID = -5448203274869743192L;
 	private String nombre;
 
 	public Pelicula() {
-		// TODO Auto-generated constructor stub
 	}
-	
+
 	public Pelicula(String nombre) {
-		// TODO Auto-generated constructor stub
-		this.nombre=nombre;
-		
+		this.nombre = nombre;
 	}
 
 	/**
