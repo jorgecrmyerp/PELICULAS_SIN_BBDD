@@ -3,31 +3,51 @@ package com.jgr.peliculas.domain;
 import java.io.Serializable;
 import java.util.Objects;
 
+
+
+/**
+ * @author DARTH_VADER
+ *Clase Pelicula, definicion y metodos de la pelicula
+ */
+
+
+
 public class Pelicula implements Serializable {
 
-	/**
-	 * CLASE PRINCIPAL
-	 */
+	
 	private static final long serialVersionUID = -5448203274869743192L;
 	private String nombre;
-
+	/**
+     * Constructor vacio
+     * @param nada 
+     */
 	public Pelicula() {
 	}
-
+	
+	/**
+     * Constructor con datos
+     * @param String nombre  
+     */
 	public Pelicula(String nombre) {
 		this.nombre = nombre;
 	}
 
 	/**
-	 * @return the nombre
+     * Devuelve el nombre de la pelicula 
+     * @param nada
+     * @return the nombre      
 	 */
+	
 	public String getNombre() {
 		return nombre;
 	}
-
+		
 	/**
-	 * @param nombre the nombre to set
+     * Devuelve el nombre de la pelicula 
+     * @param String nombre de pelicula
+     * @return nada
 	 */
+	
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}

@@ -15,7 +15,7 @@ PushLog="/dev/null"
 # Mensaje
 message=$@
 if [ -z "$message" ]; then
-message="$(date) 2022-03-10 proyecto con maven"
+message="$(date) 2022-03-10 hecho AccesoDatosImplArch"
 fi
 
 start=`date +%s`
