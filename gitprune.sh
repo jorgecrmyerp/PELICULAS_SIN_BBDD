@@ -15,7 +15,7 @@ PushLog="/dev/null"
 # Mensaje
 message=$@
 if [ -z "$message" ]; then
-message="$(date) 2022-03-11 NO HAY MANERA DE QUE BORRE EL FICHERO"
+message="$(date) 2022-03-11 COGIDO EL DEL PROFE, FALLA ESCRIBIR"
 fi
 
 start=`date +%s`

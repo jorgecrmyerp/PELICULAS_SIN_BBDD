@@ -23,6 +23,15 @@ import com.jgr.peliculas.excepciones.LecturaDatosEx;
 /**
  * <h1>Esta clase realiza el acceso y tratamiento de datos cuando es un fichero<h1>.
  */
+
+
+
+
+da error cuando se intenta escribir mas de una vez con el buffered reader,buscado en chuidiang
+*         http://www.chuidiang.org/java/ficheros/ObjetosFichero.php
+	 *         https://stackoverflow.com/questions/2393179/streamcorruptedexception-invalid-type-code-ac
+	 */
+
 public class AccesoDatosImplArch implements IAccesoDatos {
 
 	/**
@@ -55,14 +64,13 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 		List<Pelicula> peliculas = new ArrayList<Pelicula>();
 
 		try {			
-			ObjectInputStream objetoEntrada = new ObjectInputStream(new FileInputStream(nombreRecurso));
-			 
+			ObjectInputStream objetoEntrada = new ObjectInputStream(new FileInputStream(nombreRecurso));			 
 			Object objeto = objetoEntrada.readObject();
-			System.out.println("leo antes");
-			
+			System.out.println("leo antes");			
 			while (objeto!= null) {
-				
+				if(objeto instanceof Pelicula) {
 				peliculas.add((Pelicula) objeto);
+				}
 				objeto = objetoEntrada.readObject();
 				System.out.println("leo dentro");
 			}
@@ -118,8 +126,8 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 			}
 			else {
 				System.out.println("fichero SI existe");
-				MiObjectOutputStream objetoSalida = new MiObjectOutputStream(new FileOutputStream(nombreRecurso,anexar));
-				objetoSalida.writeObject(pelicula);
+				MiObjectOutputStream objetoSalida = new MiObjectOutputStream(new FileOutputStream(nombreRecurso,true));
+				objetoSalida.writeUnshared(pelicula);
 				objetoSalida.close();
 				
 				
@@ -207,7 +215,7 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 			 * objetoSalida.close(); ficheroSalida.close();
 			 */
 			
-			ObjectOutputStream objetoSalida = new ObjectOutputStream(new FileOutputStream(nombreRecurso,false));
+			ObjectOutputStream objetoSalida = new ObjectOutputStream(new FileOutputStream(nombreRecurso));
 
 			//File f = new File(nombreRecurso);
 			

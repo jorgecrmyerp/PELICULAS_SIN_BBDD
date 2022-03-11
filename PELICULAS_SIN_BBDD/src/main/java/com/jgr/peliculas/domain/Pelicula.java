@@ -71,8 +71,7 @@ public class Pelicula implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Pelicula [nombre=" + nombre + ", getNombre()=" + getNombre() + ", hashCode()=" + hashCode()
-				+ ", getClass()=" + getClass() + ", toString()=" + super.toString() + "]";
+		return this.getNombre();
 	}
 
 }

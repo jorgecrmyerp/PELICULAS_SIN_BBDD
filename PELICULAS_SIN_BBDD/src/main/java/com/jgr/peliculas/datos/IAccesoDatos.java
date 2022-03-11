@@ -18,14 +18,18 @@ import com.jgr.peliculas.excepciones.LecturaDatosEx;
  *crear:alta de fichero para guardar peliculas
  *borrar:borra el fichero
  */
-public interface IAccesoDatos {
-	
-	boolean existe(String nombreRecurso) throws AccesoDatosEx;
-	List<Pelicula> listar(String nombreRecurso) throws LecturaDatosEx, AccesoDatosEx;
-	void escribir(Pelicula pelicula,String nombreRecurso,boolean anexar) throws EscrituraDatosEx , AccesoDatosEx;
-	Pelicula buscar(String nombreRecurso,Pelicula pelicula) throws LecturaDatosEx  , AccesoDatosEx;
-	void crear(String nombreRecurso) throws AccesoDatosEx;
-	void borrar(String nombreRecurso) throws AccesoDatosEx;
-	
 
+public interface IAccesoDatos {
+
+    boolean existe(String nombreRecurso) throws AccesoDatosEx;
+
+    List<Pelicula> listar(String nombreRecurso) throws LecturaDatosEx;
+
+    void escribir(Pelicula pelicula, String nombreRecurso, boolean anexar) throws EscrituraDatosEx;
+
+    String buscar(String nombreRecurso, String buscar) throws LecturaDatosEx;
+
+    void crear(String nombreRecurso) throws AccesoDatosEx;
+
+    void borrar(String nombreRecurso) throws AccesoDatosEx;
 }
