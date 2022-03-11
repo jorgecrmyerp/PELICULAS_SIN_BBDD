@@ -1,19 +1,16 @@
 package com.jgr.peliculas.datos;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.jgr.peliculas.auxiliares.MiObjectOutputStream;
 import com.jgr.peliculas.domain.Pelicula;
 import com.jgr.peliculas.excepciones.AccesoDatosEx;
 import com.jgr.peliculas.excepciones.EscrituraDatosEx;
@@ -38,8 +35,7 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 
 	@Override
 	public boolean existe(String nombreRecurso) throws AccesoDatosEx {
-		File archivo = new File(nombreRecurso);
-		
+		File archivo = new File(nombreRecurso);		
 		return archivo.exists();
 
 	}
@@ -58,22 +54,20 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 
 		List<Pelicula> peliculas = new ArrayList<Pelicula>();
 
-		try {
-
-			FileInputStream ficheroEntrada = new FileInputStream(nombreRecurso);
-			ObjectInputStream objetoEntrada = new ObjectInputStream(ficheroEntrada);
-
-			Object objeto = new Object();
-			objeto = objetoEntrada.readObject();
+		try {			
+			ObjectInputStream objetoEntrada = new ObjectInputStream(new FileInputStream(nombreRecurso));
+			 
+			Object objeto = objetoEntrada.readObject();
 			System.out.println("leo antes");
-			while (objeto != null) {
+			
+			while (objeto!= null) {
 				
 				peliculas.add((Pelicula) objeto);
 				objeto = objetoEntrada.readObject();
 				System.out.println("leo dentro");
 			}
 			objetoEntrada.close();
-			ficheroEntrada.close();
+			
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -107,16 +101,29 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 	@Override
 	public void escribir(Pelicula pelicula, String nombreRecurso, boolean anexar)
 			throws EscrituraDatosEx, AccesoDatosEx {
-
+		
 		System.out.println("escrito ok en escribir:"+ pelicula.toString()+ "\n");
+		
+		
+		//java.io.StreamCorruptedException: invalid type code: AC
+		//si escribes mas de una vez en un outputStream da este error->java.io.StreamCorruptedException: invalid type code: AC
+		
 		try {
-			FileOutputStream ficheroSalida = new FileOutputStream(nombreRecurso,anexar);
-			ObjectOutputStream objetoSalida = new ObjectOutputStream(ficheroSalida);
-			//objetoSalida.writeObject(pelicula);
-			objetoSalida.writeUnshared(pelicula);
-			//objetoSalida.reset();
+			if(!this.existe(nombreRecurso)) {
+			System.out.println("fichero NO existe");
+			ObjectOutputStream objetoSalida = new ObjectOutputStream(new FileOutputStream(nombreRecurso,false));
+			objetoSalida.writeObject(pelicula);
 			objetoSalida.close();
-			ficheroSalida.close();
+
+			}
+			else {
+				System.out.println("fichero SI existe");
+				MiObjectOutputStream objetoSalida = new MiObjectOutputStream(new FileOutputStream(nombreRecurso,anexar));
+				objetoSalida.writeObject(pelicula);
+				objetoSalida.close();
+				
+				
+			}
 			
 			
 		} catch (FileNotFoundException e) {
@@ -126,6 +133,8 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 			e.printStackTrace();
 			throw new AccesoDatosEx("error IO escribir peliculas :" + e.getMessage() + " " + e.getCause());
 		}
+		
+		
 
 	}
 
@@ -197,10 +206,11 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 			 * ObjectOutputStream objetoSalida = new ObjectOutputStream(ficheroSalida);
 			 * objetoSalida.close(); ficheroSalida.close();
 			 */
-			new FileOutputStream(nombreRecurso, false).close();
+			
+			ObjectOutputStream objetoSalida = new ObjectOutputStream(new FileOutputStream(nombreRecurso,false));
 
 			//File f = new File(nombreRecurso);
-			//System.out.println("creado ok en crear" + f.exists());
+			
 			
 		} catch (FileNotFoundException e) {
 			//e.printStackTrace();
@@ -222,10 +232,27 @@ public class AccesoDatosImplArch implements IAccesoDatos {
 
 	@Override
 	public void borrar(String nombreRecurso) throws AccesoDatosEx {
-		File archivo = new File(nombreRecurso);
-		if (archivo.exists()) {
-			archivo.delete();
-		}
+		try{
+
+            File archivo = new File(nombreRecurso);
+
+            boolean estatus = archivo.delete();
+
+            if (!estatus) {
+
+                System.out.println("Error no se ha podido eliminar el  archivo");
+
+           }else{
+
+                System.out.println("Se ha eliminado el archivo exitosamente");
+
+           }
+
+        }catch(Exception e){
+
+           System.out.println(e);
+
+        }
 
 	}
 
