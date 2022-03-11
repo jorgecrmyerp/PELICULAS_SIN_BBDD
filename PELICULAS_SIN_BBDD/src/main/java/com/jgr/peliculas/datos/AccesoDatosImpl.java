@@ -70,13 +70,14 @@ public class AccesoDatosImpl implements IAccesoDatos {
     public String buscar(String nombreRecurso, String buscar) throws LecturaDatosEx {
         var archivo = new File(nombreRecurso);
         String resultado = null;
-        //System.out.println("busco"+buscar);
+        System.out.println("busco"+buscar);
         try {
             var entrada = new BufferedReader(new FileReader(archivo));
             String linea = null;
             linea = entrada.readLine();
             var indice = 1;
             while (linea != null) {
+            	System.out.println("linea"+linea);
                 if(buscar != null && buscar.equalsIgnoreCase(linea)){
                     resultado = "Pelicula " + linea + " encontrada en el indice " + indice;
                     break;

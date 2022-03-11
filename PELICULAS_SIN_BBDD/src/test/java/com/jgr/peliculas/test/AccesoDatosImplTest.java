@@ -58,33 +58,27 @@ class AccesoDatosImplTest {
 	@Test
 	@DisplayName("estoy en testExiste")
 	void testExiste() throws AccesoDatosEx {
-		accesoDatos.crear(nomFichero);
-		assertTrue(accesoDatos.existe(nomFichero), () -> "no existe el fichero y lo acabo de crear" + nomFichero);
+		//accesoDatos.crear(nomFichero);
+		assertTrue(accesoDatos.existe(nomFichero));
 
 		// fail("Not yet implemented");
 	}
 
 	@Test
 	@DisplayName("estoy en testListar")
-	void testListar() throws Exception {
-		
+	void testListar() throws Exception {		
 		List<Pelicula> peliculas2 = new ArrayList<Pelicula>();
-
-		peliculas2 = accesoDatos.listar(nomFichero);
-		
-		
-		assertTrue(peliculas.equals(peliculas2),() -> "no son iguales:" + peliculas.toString() );
-		
-		peliculas2.forEach(System.out::println);
-		
+		peliculas2 = accesoDatos.listar(nomFichero);				
+		assertTrue(peliculas.equals(peliculas2),() -> "no son iguales:" + peliculas.toString() );		
+		peliculas2.forEach(System.out::println);	
 
 	}
 
 	@Test
 	@DisplayName("estoy en testEscribir")
 	void testEscribir() throws AccesoDatosEx {
-		accesoDatos.borrar(nomFichero);
-		accesoDatos.crear(nomFichero);
+		//accesoDatos.borrar(nomFichero);
+		//accesoDatos.crear(nomFichero);
 		
 		for (Pelicula peli:peliculas) {
 			accesoDatos.escribir(peli, nomFichero, true);

@@ -12,7 +12,7 @@ import java.util.Objects;
 
 
 
-public class Pelicula implements Serializable {
+public class Pelicula /*implements Serializable*/ {
 
 	
 	private static final long serialVersionUID = -5448203274869743192L;
