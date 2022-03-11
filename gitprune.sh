@@ -15,7 +15,7 @@ PushLog="/dev/null"
 # Mensaje
 message=$@
 if [ -z "$message" ]; then
-message="$(date) 2022-03-11 FUNCIONA OK SI SE QUITA EL SERIALIZABLE A PELICULAS"
+message="$(date) 2022-03-11 TERMINADO SEGUN PROFE"
 fi
 
 start=`date +%s`

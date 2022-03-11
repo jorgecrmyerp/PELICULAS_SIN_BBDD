@@ -12,7 +12,6 @@ public class LecturaDatosEx extends AccesoDatosEx {
 		super(message);
 	}
 	
-
 	public LecturaDatosEx(String message, Throwable cause, boolean enableSuppression, boolean writableStackTrace) {
 		super(message, cause, enableSuppression, writableStackTrace);
 	}
